@@ -1,0 +1,20 @@
+query {
+    moduleSource(refString: "./") {
+        asModule {
+            call(
+                object: "Foo",
+                field: "test",
+                parent: """{
+                    "A": 1,
+                    "B": 2
+                }""",
+                inputs: """[
+                    {
+                        "name": "n",
+                        "value": 123
+                    }
+                ]""",
+            )
+        }
+    }
+}
