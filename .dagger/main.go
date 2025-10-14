@@ -8,3 +8,7 @@ type Foo struct {
 func (m *Foo) Test(n int) int {
 	return m.A + m.B + n
 }
+
+func (m *Foo) ScaleTest(n int) int {
+	return m.A + m.B + n
+}
