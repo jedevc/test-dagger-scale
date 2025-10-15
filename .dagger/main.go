@@ -2,8 +2,12 @@ package main
 
 import (
 	"context"
+	"fmt"
+	"slices"
 	"strconv"
 	"strings"
+
+	"dagger/foo/internal/dagger"
 )
 
 type Foo struct {
@@ -40,4 +44,22 @@ func (m *Foo) BusyWork(ctx context.Context, n int) (string, error) {
 
 func (m *Foo) ScaleBusyWork(ctx context.Context, n int) (string, error) {
 	return m.BusyWork(ctx, n)
+}
+
+func (m *Foo) CheckFiles(
+	ctx context.Context,
+	// +defaultPath="."
+	dir *dagger.Directory,
+) error {
+	entries, err := dir.Entries(ctx)
+	if err != nil {
+		return err
+	}
+	if len(entries) == 0 {
+		return fmt.Errorf("no files found in the directory")
+	}
+	if !slices.Contains(entries, "dagger.json") {
+		return fmt.Errorf("dagger.json not found in the directory")
+	}
+	return nil
 }
